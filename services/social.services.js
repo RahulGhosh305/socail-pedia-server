@@ -11,6 +11,11 @@ export const getPostService = async () => {
     return data
 }
 
+export const getSinglePostService = async (id) => {
+    const data = await PostModel.findOne({ _id: id })
+    return data
+}
+
 export const addCommentService = async (id, postCommentData) => {
     const data = await PostModel.findOneAndUpdate(
         { _id: id },

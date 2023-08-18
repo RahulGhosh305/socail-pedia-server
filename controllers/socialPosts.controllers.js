@@ -1,4 +1,4 @@
-import { createPostService, getPostService, addCommentService, addLikeService } from "../services/social.services.js";
+import { createPostService, getPostService, addCommentService, addLikeService, getSinglePostService } from "../services/social.services.js";
 
 export const contentPost = async (req, res) => {
     const data = req.body;
@@ -15,7 +15,16 @@ export const getPost = async (req, res) => {
 
     res.status(200).json({
         data: response,
-        status: "Posted Successful"
+        status: "Get All Successful"
+    })
+}
+
+export const getSinglePost = async (req, res) => {
+    const id = req.params.id
+    const response = await getSinglePostService(id)
+    res.status(200).json({
+        data: response,
+        status: "Get Successful"
     })
 }
 

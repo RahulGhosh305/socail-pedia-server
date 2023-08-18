@@ -3,6 +3,7 @@ import UserModel from "../models/user.model.js";
 export const createUserService = async (newUserData) => {
     const data = await new UserModel(newUserData)
     await data.save()
+    return data
 }
 
 export const getUserService = async (email) => {

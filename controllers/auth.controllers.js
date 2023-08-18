@@ -13,7 +13,14 @@ export const userCreate = async (req, res) => {
             return res.json({ error: "User Exists" });
         }
         const newUser = { password: encryptedPassword, email, photo, address, university, username }
-        await createUserService(newUser);
+        const response = await createUserService(newUser);
+        const resposeClientSite = {
+            name: response.username,
+            email: response.email,
+            address: response.address,
+            photo: response.photo,
+            university: response.university
+        }
         res.send({ status: "User Created" });
     } catch (error) {
         res.send({ status: "User Created Failed" });
@@ -23,8 +30,8 @@ export const userCreate = async (req, res) => {
 
 export const login = async (req, res) => {
     const { email, password } = req.body;
-
     const user = await getUserService(email);
+
     if (!user) {
         return res.json({ error: "User Not found" });
     }
