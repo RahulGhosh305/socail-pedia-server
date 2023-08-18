@@ -29,3 +29,9 @@ export const updateUserService = async (id, updates) => {
     );
     return data
 }
+
+
+export const varifyUser = async (email) => {
+    const data = await UserModel.findOne({ email: email });
+    return data
+}

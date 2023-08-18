@@ -1,5 +1,5 @@
 import bcrypt from 'bcrypt'
-import { createUserService, getUserService, updateUserService } from "../services/auth.services.js"
+import { createUserService, getUserService, updateUserService, varifyUser } from "../services/auth.services.js"
 import jwt from 'jsonwebtoken'
 
 export const userCreate = async (req, res) => {
@@ -36,7 +36,7 @@ export const login = async (req, res) => {
         return res.json({ error: "User Not found" });
     }
     if (await bcrypt.compare(password, user.password)) {
-        const token = jwt.sign({ email: user.email }, `${process.env.MONGODB_URL}`, {
+        const token = jwt.sign({ email: user.email }, `${process.env.SECRET_KEY}`, {
             expiresIn: "1h",
         });
 
@@ -66,4 +66,29 @@ export const updateProfile = async (req, res) => {
         console.error(error);
         res.status(500).json({ message: 'Internal server error' });
     }
+}
+
+
+export const protectedUser = async (req, res) => {
+    const { token } = req.body;
+
+    if (!token) {
+        return res.status(401).json({ message: 'No token provided' });
+    }
+
+    try {
+        const decoded = await jwt.verify(`${token}`, `${process.env.SECRET_KEY}`);
+        const data = await varifyUser(decoded.email)
+        const isUser = {
+            username: data.username,
+            email: data.email,
+            photo: data.photo,
+            address: data.address,
+            university: data.university
+        }
+        res.json(isUser);
+    } catch (error) {
+        res.status(403).json({ message: 'Failed to decode token', error: error.message });
+    }
+
 }
