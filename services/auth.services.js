@@ -19,7 +19,7 @@ export const updateUserService = async (id, updates) => {
         {
             $set: {
                 username: username,
-                email: email,
+                // email: email,
                 photo: photo,
                 address: address,
                 university: university

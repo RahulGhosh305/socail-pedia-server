@@ -30,7 +30,7 @@ export const getSinglePost = async (req, res) => {
 
 export const addComment = async (req, res) => {
     const data = req.body;
-    const { id } = req.params;
+    const id = req.params.id;
     const response = await addCommentService(id, data)
 
     res.status(200).json({

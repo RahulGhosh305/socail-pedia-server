@@ -51,11 +51,10 @@ export const login = async (req, res) => {
 
 
 export const updateProfile = async (req, res) => {
-    console.log("enter");
     try {
         const id = req.params.id;
-        const updates = req.body; // Assuming the updates are sent in the request body
-        console.log(id, updates);
+        const updates = req.body;
+
         const updatedUser = await updateUserService(id, updates);
 
         if (!updatedUser) {
