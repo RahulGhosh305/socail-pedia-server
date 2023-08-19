@@ -14,16 +14,10 @@ export const userCreate = async (req, res) => {
         }
         const newUser = { password: encryptedPassword, email, photo, address, university, username }
         const response = await createUserService(newUser);
-        const resposeClientSite = {
-            name: response.username,
-            email: response.email,
-            address: response.address,
-            photo: response.photo,
-            university: response.university
-        }
+
         res.send({ status: "User Created" });
     } catch (error) {
-        res.send({ status: "User Created Failed" });
+        res.send({ status: "User Created Failed", error });
     }
 }
 

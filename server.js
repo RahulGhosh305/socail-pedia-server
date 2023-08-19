@@ -2,7 +2,6 @@ import app from './app.js';
 import mongoose from 'mongoose';
 
 const port = 5000
-
 mongoose.connect(`${process.env.MONGODB_URL}`).catch(err => {
     console.log("Mongoose connection error: " + err);
 });
