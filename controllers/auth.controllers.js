@@ -37,11 +37,11 @@ export const login = async (req, res) => {
     }
     if (await bcrypt.compare(password, user.password)) {
         const token = jwt.sign({ email: user.email }, `${process.env.SECRET_KEY}`, {
-            expiresIn: "1h",
+            expiresIn: "5h",
         });
 
         if (res.status(201)) {
-            return res.json({ status: "LoggedIn", data: token });
+            return res.json({ status: "loggedIn", data: token });
         } else {
             return res.json({ error: "Loging Error" });
         }
@@ -51,10 +51,11 @@ export const login = async (req, res) => {
 
 
 export const updateProfile = async (req, res) => {
+    console.log("enter");
     try {
         const id = req.params.id;
         const updates = req.body; // Assuming the updates are sent in the request body
-
+        console.log(id, updates);
         const updatedUser = await updateUserService(id, updates);
 
         if (!updatedUser) {
@@ -80,6 +81,7 @@ export const protectedUser = async (req, res) => {
         const decoded = await jwt.verify(`${token}`, `${process.env.SECRET_KEY}`);
         const data = await varifyUser(decoded.email)
         const isUser = {
+            id: data._id,
             username: data.username,
             email: data.email,
             photo: data.photo,
