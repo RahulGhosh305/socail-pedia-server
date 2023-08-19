@@ -26,13 +26,14 @@ const schema = new Schema({
     },
     comments: [{
         commentText: String,
-        user: userSchema
+        user: userSchema,
+
     }],
     like: [{
         isLiked: Boolean,
         user: userSchema
     }]
-});
+}, { timestamps: true });
 
 
 const PostModel = mongoose.model("posts", schema);

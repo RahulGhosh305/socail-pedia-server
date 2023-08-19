@@ -3,11 +3,12 @@ import PostModel from "../models/social.model.js";
 export const createPostService = async (postData) => {
     const data = await new PostModel(postData)
     await data.save()
+
     return data
 }
 
 export const getPostService = async () => {
-    const data = await PostModel.find({})
+    const data = await PostModel.find({}).sort({ createdAt: -1 });
     return data
 }
 
